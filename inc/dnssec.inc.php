@@ -451,7 +451,7 @@ function dnssec_get_dnskey_record($domain_name) {
 
     $dns_key = '';
     foreach ($output as $line) {
-        if (substr($line, 0, 3) == 'KSK') {
+        if ((substr($line, 0, 3) == 'KSK' || substr($line, 0, 3) == 'CSK')) {
             $items = explode(' ', $line);
             $dns_key = join(" ", array_slice($items, 3));
         }
@@ -523,9 +523,17 @@ function dnssec_get_keys($domain_name) {
     $keys = array();
     foreach ($output as $line) {
         if (substr($line, 0, 2) == 'ID') {
-            $items = explode(' ', $line);
-            $bits_array = explode("\t", $items[12]);
-            $keys[] = array($items[2], substr($items[3], 1, -2), substr($items[6], 0, -1), substr($items[9], 0, -1), $bits_array[0], $items[13]);
+            $items = explode(',', $line);
+            $id_type = explode("=", $items[0]);
+            preg_match('/\d+/',$id_type[1],$id);
+            preg_match('/[A-Z]+/',$id_type[1],$type);
+            $flags = explode("=", $items[1]);
+            $tag = explode("=", $items[2]);
+            $algo = explode("=", $items[3]);
+            $junk_array = preg_split('/\s+/',$items[4]);
+            $bits = $junk_array[3];
+            $active = $junk_array[4];
+            $keys[] = array($id[0], $flags[1], $tag[1], $algo[1], $bits, $active, $type[0]);
         }
     }
 
