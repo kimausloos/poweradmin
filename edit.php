@@ -216,7 +216,6 @@ if ($records == "-1") {
     echo "   <table>\n";
     echo "    <tr>\n";
     echo "     <th>&nbsp;</th>\n";
-    echo "     <th><a href=\"edit.php?id=" . $zone_id . "&amp;record_sort_by=id\">" . _('Id') . "</a></th>\n";
     echo "     <th><a href=\"edit.php?id=" . $zone_id . "&amp;record_sort_by=name\">" . _('Name') . "</a></th>\n";
     echo "     <th><a href=\"edit.php?id=" . $zone_id . "&amp;record_sort_by=type\">" . _('Type') . "</a></th>\n";
     echo "     <th><a href=\"edit.php?id=" . $zone_id . "&amp;record_sort_by=content\">" . _('Content') . "</a></th>\n";
@@ -231,7 +230,7 @@ if ($records == "-1") {
         echo "    <tr>\n";
 
         if ($domain_type == "SLAVE" || $perm_content_edit == "none" || (($perm_content_edit == "own" || $perm_content_edit == "own_as_client") && $user_is_zone_owner == "0")) {
-            echo "     <td class=\"n\">&nbsp;</td>\n";
+            echo "     <td class=\"n\"><img src=\"images/edit.gif\" alt=\"[ " . _('Edit record') . " ]\" class=\"disabled\"></td>\n";
         }
         elseif ($r['type'] == "SOA" && $perm_content_edit != "all" || ($r['type'] == "NS" && $perm_content_edit == "own_as_client")) {
         	echo "     <td class=\"n\">&nbsp;</td>\n";
@@ -244,7 +243,6 @@ if ($records == "-1") {
                                                 <img src=\"images/delete.gif\" ALT=\"[ " . _('Delete record') . " ]\" BORDER=\"0\"></a>\n";
             echo "     </td>\n";
         }
-        echo "     <td class=\"n\">{$r['id']}</td>\n";
         if ($r['type'] == "SOA" || ($r['type'] == "NS" && $perm_content_edit == "own_as_client")) {
             echo "     <td class=\"n\">" . $r['name'] . "</td>\n";
             echo "     <td class=\"n\">" . $r['type'] . "</td>\n";
