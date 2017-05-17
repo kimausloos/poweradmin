@@ -83,6 +83,7 @@ echo "      <tr>\n";
 echo "       <th>&nbsp;</th>\n";
 echo "       <th>" . _('ID') . "</th>\n";
 echo "       <th>" . _('Type') . "</th>\n";
+echo "       <th>" . _('Flags') . "</th>\n";
 echo "       <th>" . _('Tag') . "</th>\n";
 echo "       <th>" . _('Algorithm') . "</th>\n";
 echo "       <th>" . _('Bits') . "</th>\n";
@@ -98,11 +99,12 @@ foreach ($keys as $item) {
     echo "<a href=\"dnssec_delete_key.php?id=" . $zone_id . "&key_id=" . $item[0] . "\"><img src=\"images/delete.gif\" title=\"" . _('Delete zone key') . " " . $item[0] . "\" alt=\"[ " . _('Delete zone key') . " " . $domain_name . " ]\"></a>\n";
     echo "</td>";
     echo "<td class=\"cell\">".$item[0]."</td>\n";
+    echo "<td class=\"cell\">".$item[6]."</td>\n";
     echo "<td class=\"cell\">".$item[1]."</td>\n";
     echo "<td class=\"cell\">".$item[2]."</td>\n";
     echo "<td class=\"cell\">".dnssec_algorithm_to_name($item[3])."</td>\n";
     echo "<td class=\"cell\">".$item[4]."</td>\n";
-    echo "<td class=\"cell\">".($item[5] ? _('Yes') : _('No'))."</td>\n";
+    echo "<td class=\"cell\">".($item[5] == 'Active' ? _('Yes') : _('No'))."</td>\n";
     echo "</tr>\n";
 }
 
