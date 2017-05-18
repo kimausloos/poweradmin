@@ -82,7 +82,7 @@ if ($confirm == '1') {
         $key_info = dnssec_get_zone_key($domain_name, $key_id);
         echo "      " . _('Domain') . ": " . $domain_name . "<br>\n";
         echo "      " . _('Id') . ": " . $key_info[0] . "<br>\n";
-        echo "      " . _('Type') . ": " . $key_info[1] . "<br>\n";
+        echo "      " . _('Type') . ": " . $key_info[6] . "<br>\n";
         echo "      " . _('Tag') . ": " . $key_info[2] . "<br>\n";
         echo "      " . _('Algorithm') . ": " . dnssec_algorithm_to_name($key_info[3]) . "<br>\n";
         echo "      " . _('Bits') . ": " . $key_info[4] . "<br>\n";
