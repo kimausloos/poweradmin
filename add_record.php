@@ -143,11 +143,13 @@ if (isset($_POST["commit"])) {
                     log_info(sprintf('client_ip:%s user:%s operation:add_record record_type:PTR record:%s content:%s ttl:%s priority:%s',
                                       $_SERVER['REMOTE_ADDR'], $_SESSION["userlogin"],
                                       $content_rev, $fqdn_name, $ttl, $prio));
-		    if ($pdnssec_use) {
-			    if (dnssec_rectify_zone($zone_rev_id)) {
-				    success(SUC_EXEC_PDNSSEC_RECTIFY_ZONE);
-			    }
-		    }
+            if ($pdnssec_use) {
+              if (dnssec_is_zone_secured($zone_name)){
+                if (dnssec_rectify_zone($zone_rev_id)) {
+                  success(SUC_EXEC_PDNSSEC_RECTIFY_ZONE);
+                }
+              }
+            }
 
                 }
             } elseif (isset($content_rev)) {

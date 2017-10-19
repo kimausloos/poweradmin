@@ -87,9 +87,12 @@ if (isset($_POST['commit'])) {
         }
 
         if ($pdnssec_use) {
+          $zone_name = get_zone_name_from_id($_GET['id']);
+          if (dnssec_is_zone_secured($zone_name)){
             if (dnssec_rectify_zone($_GET['id'])) {
                 success(SUC_EXEC_PDNSSEC_RECTIFY_ZONE);
             }
+          }
         }
     } else {
         error(ERR_ZONE_UPD);
