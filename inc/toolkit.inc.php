@@ -318,16 +318,29 @@ $server_types = array("MASTER", "SLAVE", "NATIVE");
 
 // $rtypes - array of possible record types
 $rtypes = array(
+    'PTR',
     'A',
-    'A6',
     'AAAA',
+    'CNAME',
+    'MX',
+    'NS',
+    'SOA',
+    'TXT',
+    'CAA',
+    'SRV',
+    'DNSKEY',
+    'RRSIG',
+    'NSEC',
+    'DS',
+    'TSIG'
+);
+/*
+    'A6',
     'AFSDB',
     'ALIAS',
-    'CAA',
     'CDNSKEY',
     'CDS',
     'CERT',
-    'CNAME',
     'DHCID',
     'DLV',
     'DNSKEY',
@@ -344,30 +357,22 @@ $rtypes = array(
     'MAILB',
     'MINFO',
     'MR',
-    'MX',
     'NAPTR',
-    'NS',
     'NSEC',
     'NSEC3',
     'NSEC3PARAM',
     'OPENPGPKEY',
     'OPT',
-    'PTR',
     'RKEY',
     'RP',
     'RRSIG',
     'SIG',
-    'SOA',
-    'SPF',
-    'SRV',
     'SSHFP',
     'TLSA',
     'TKEY',
-    'TSIG',
-    'TXT',
     'WKS',
     'URI'
-);
+*/
 
 // If fancy records is enabled, extend this field.
 if ($dns_fancy) {
