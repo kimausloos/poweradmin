@@ -60,10 +60,10 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl) {
         if (!is_valid_ipv4($content)) {
           return false;
         }
-        if (!is_valid_rr_cname_exists($name, $rid)) {
+        if (!is_valid_hostname_fqdn($name, 1)) {
           return false;
         }
-        if (!is_valid_hostname_fqdn($name, 1)) {
+        if (!is_valid_rr_cname_exists($name, $rid)) {
           return false;
         }
       break;
@@ -75,10 +75,10 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl) {
         if (!is_valid_ipv6($content)) {
           return false;
         }
-        if (!is_valid_rr_cname_exists($name, $rid)) {
+        if (!is_valid_hostname_fqdn($name, 1)) {
           return false;
         }
-        if (!is_valid_hostname_fqdn($name, 1)) {
+        if (!is_valid_rr_cname_exists($name, $rid)) {
           return false;
         }
       break;
@@ -102,10 +102,7 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl) {
       break;
 
       case "CNAME":
-        if (!is_valid_rr_cname_name($name)) {
-          return false;
-        }
-        if (!is_valid_rr_cname_unique($name, $rid)) {
+        if (!is_not_empty_cname_rr($name, $zone)) {
           return false;
         }
         if (!is_valid_hostname_fqdn($name, 1)) {
@@ -114,7 +111,10 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl) {
         if (!is_valid_hostname_fqdn($content, 0)) {
           return false;
         }
-        if (!is_not_empty_cname_rr($name, $zone)) {
+        if (!is_valid_rr_cname_name($name)) {
+          return false;
+        }
+        if (!is_valid_rr_cname_unique($name, $rid)) {
           return false;
         }
         break;
@@ -141,10 +141,10 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl) {
       break;
 
       case "HINFO":
-        if (!is_valid_rr_hinfo_content($content)) {
+        if (!is_valid_hostname_fqdn($name, 1)) {
           return false;
         }
-        if (!is_valid_hostname_fqdn($name, 1)) {
+        if (!is_valid_rr_hinfo_content($content)) {
           return false;
         }
       break;
@@ -159,10 +159,10 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl) {
       break;
 
       case "LOC":
-        if (!is_valid_loc($content)) {
+        if (!is_valid_hostname_fqdn($name, 1)) {
           return false;
         }
-        if (!is_valid_hostname_fqdn($name, 1)) {
+        if (!is_valid_loc($content)) {
           return false;
         }
       break;
@@ -243,10 +243,10 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl) {
       break;
 
       case "SOA":
-        if (!is_valid_rr_soa_name($name, $zone)) {
+        if (!is_valid_hostname_fqdn($name, 1)) {
           return false;
         }
-        if (!is_valid_hostname_fqdn($name, 1)) {
+        if (!is_valid_rr_soa_name($name, $zone)) {
           return false;
         }
         if (!is_valid_rr_soa_content($content)) {
@@ -327,7 +327,10 @@ function is_valid_hostname_fqdn(&$hostname, $wildcard) {
     global $dns_strict_tld_check;
     global $valid_tlds;
 
-    $hostname = preg_replace("/\.$/", "", $hostname);
+    if (substr($hostname, -1, 1) === '.') {
+      error(ERR_DNS_NAME_PERIOD);
+      return false;
+    }
 
     # The full domain name may not exceed a total length of 253 characters.
     if (strlen($hostname) > 253) {
